@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title>在线yaml转properties-在线properties转yaml-ToYaml.com</title>
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+    <meta name="keywords"
+        content="涂鸦帽,properties转yml,properties转yaml,properties to yaml,yaml to properties,yml to properties,yml转properties,yaml转properties">
+    <meta name="description" content="在线yaml转properties工具 - toyaml">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        var timeOutEvent = setTimeout(function () {
+            window.location.href = "/indexOld.html";
+        }, 15000);
+    </script>
+    <script src="lib/jquery/3.4.1/jquery.min.js"></script>
+    <link href="lib/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="lib/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/ace/1.2.6/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="lib/ace/1.2.6/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+        setTimeout(function () {
+            clearTimeout(timeOutEvent);
+        }, 0)
+    </script>
+
+
+</head>
+
+<body class="">
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Ninth navbar example">
+        <div class="container">
+            <a class="navbar-brand text-warning" target="_blank"
+                href="https://github.com/My-Search?tab=repositories">MSTools</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
+                            aria-expanded="false">Utilities</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item"
+                                    href="https://greasyfork.org/zh-CN/scripts/457020-%E6%88%91%E7%9A%84%E6%90%9C%E7%B4%A2">我的搜索</a>
+                            </li>
+                            <li><a class="dropdown-item" target="_blank"
+                                    href="https://greasyfork.org/zh-CN/scripts/452142-%E8%AE%B0%E4%BD%8F%E9%98%85%E8%AF%BB%E8%BF%9B%E5%BA%A6">记住阅读进度</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <a href="https://my-search.github.io/properties2yaml" target="_blank">
+                    <svg height="32" aria-hidden="true" viewBox="0 0 24 24" version="1.1" width="32"
+                        data-view-component="true" class="octicon octicon-mark-github v-align-middle">
+                        <path
+                            d="M12.5.75C6.146.75 1 5.896 1 12.25c0 5.089 3.292 9.387 7.863 10.91.575.101.79-.244.79-.546 0-.273-.014-1.178-.014-2.142-2.889.532-3.636-.704-3.866-1.35-.13-.331-.69-1.352-1.18-1.625-.402-.216-.977-.748-.014-.762.906-.014 1.553.834 1.769 1.179 1.035 1.74 2.688 1.25 3.349.948.1-.747.402-1.25.733-1.538-2.559-.287-5.232-1.279-5.232-5.678 0-1.25.445-2.285 1.178-3.09-.115-.288-.517-1.467.115-3.048 0 0 .963-.302 3.163 1.179.92-.259 1.897-.388 2.875-.388.977 0 1.955.13 2.875.388 2.2-1.495 3.162-1.179 3.162-1.179.633 1.581.23 2.76.115 3.048.733.805 1.179 1.825 1.179 3.09 0 4.413-2.688 5.39-5.247 5.678.417.36.776 1.05.776 2.128 0 1.538-.014 2.774-.014 3.162 0 .302.216.662.79.547C20.709 21.637 24 17.324 24 12.25 24 5.896 18.854.75 12.5.75Z">
+                        </path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <div id="liveAlertPlaceholder"></div>
+
+        <div class="row vertical-middle">
+            <div class="col-md-5 col-lg-5">
+                <div class="panel  panel-primary">
+                    <div class="panel-header"><b>Properties:</b></div>
+                    <div class="panel-body">
+                        <pre id="codeProperties" class="form-control ace_editor"
+                            style="min-height:650px"><textarea id="from" style="font-size:19px; " rows="30" class="ace_text-input" placeholder="properties content"></textarea></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2 col-lg-2 text-center" style="line-height: 650px;">
+                <div class="btn-group-vertical">
+                    <input class="btn btn-secondary" type="button" value="to yaml>>" onclick="Base.parseYml()">
+                    <input class="btn btn-secondary" style="margin-top: 10px;" type="button" value="<<to prop"
+                        onclick="Base.parseProp()">
+                </div>
+            </div>
+
+            <div class="col-md-5 col-lg-5">
+                <div class="panel  panel-primary">
+                    <div class="panel-header"><b>YAML:</b></div>
+                    <div class="panel-body">
+                        <pre id="codeYaml" class="ace_editor form-control"
+                            style="min-height:650px"><textarea id="to" style="font-size:19px; " rows="30" class="form-control" placeholder="yaml content"></textarea></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="loadingModal">
+            <div
+                style="width: 200px;height:20px; z-index: 20000; position: absolute; text-align: center; left: 50%; top: 50%;margin-left:-100px;margin-top:-10px">
+                <div class="progress progress-striped active" style="margin-bottom: 0;">
+                    <div class="progress-bar" style="width: 100%;"></div>
+                </div>
+
+            </div>
+        </div>
+        <footer>
+            <div class="row">
+
+            </div>
+        </footer>
+    </div>
+</body>
+<script>
+    /**
+ * 将 properties 格式的字符串转换为 YAML 格式，并保留注释
+ * @param {string} propertiesStr - properties 格式字符串
+ * @returns {string} YAML 格式字符串
+ */
+    function properties2yaml(propertiesStr) {
+        const lines = propertiesStr.split('\n');
+        const result = {};
+        let pendingComments = [];
+
+        function setValueAtPath(obj, path, value) {
+            const parts = path.split('.');
+            let current = obj;
+            for (let i = 0; i < parts.length - 1; i++) {
+                if (!(parts[i] in current)) {
+                    current[parts[i]] = {};
+                }
+                current = current[parts[i]];
+            }
+            const lastPart = parts[parts.length - 1];
+            if (pendingComments.length > 0) {
+                if (!current._comments) {
+                    current._comments = {};
+                }
+                current._comments[lastPart] = pendingComments;
+                pendingComments = [];
+            }
+            current[lastPart] = value;
+        }
+
+        function convertToYAML(obj, level = 0) {
+            const indent = ' '.repeat(level);
+            let yaml = '';
+
+            for (const key in obj) {
+                if (key === '_comments') continue;
+
+                // 添加注释（如果存在）
+                const comments = obj._comments && obj._comments[key];
+                if (comments) {
+                    yaml += comments.map(comment => `${indent}${comment}`).join('\n') + '\n';
+                }
+
+                if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+                    yaml += `${indent}${key}:\n${convertToYAML(obj[key], level + 4)}`;
+                } else {
+                    yaml += `${indent}${key}:${obj[key]}\n`;
+                }
+            }
+            return yaml;
+        }
+
+        lines.forEach(line => {
+            line = line.trim();
+            if (!line) return;
+
+            if (line.startsWith('#')) {
+                pendingComments.push(line);
+            } else {
+                const [key, value] = line.split('=').map(part => part.trim());
+                setValueAtPath(result, key, value);
+            }
+        });
+
+        return convertToYAML(result);
+    }
+
+    // 如果这里接口失败，备用使用https://www.bejson.com/devtools/properties2yaml/
+    var toYamlUrl = "https://toyaml.com/y";
+    var toPropUrl = "https://toyaml.com/p";
+    var editorp = ace.edit("codeProperties");
+    var editory = ace.edit("codeYaml");
+    initTextArea("codeProperties", "properties");
+    initTextArea("codeYaml", "yaml");
+    var Base = {
+        parseYml: function () {
+            // Base.showLoading();
+            $.ajax({
+                type: "post",
+                data: { "prop": editorp.getValue() },
+                url: toYamlUrl,
+                dataType: "text",
+                success: function (data) {
+                    editory.setValue(data);
+                    // Base.hideLoading();
+                }
+            });
+        },
+        parseProp: function () {
+            // Base.showLoading();
+
+            $.ajax({
+                type: "post",
+                data: { "yaml": editory.getValue() },
+                url: toPropUrl,
+                dataType: "text",
+                success: function (data) {
+                    editorp.setValue(data);
+                    // Base.hideLoading();
+                }
+            });
+        },
+        showLoading: function () {
+            $("#loadingModal").modal('show');
+        },
+        hideLoading: function () {
+            $('#loadingModal').modal('hide');
+        }
+    }
+
+
+    var color = ['yellow', 'white'];
+
+    function initTextArea(id, type) {
+        //初始化对象
+        var editor = ace.edit(id);
+        //设置风格和语言（更多风格和语言，请到github上相应目录查看）
+        theme = "clouds"
+        language = type
+        editor.setTheme("ace/theme/" + theme);
+        editor.session.setMode("ace/mode/" + language);
+        //字体大小
+        editor.setFontSize(16);
+        //设置只读（true时只读，用于展示代码）
+        editor.setReadOnly(false);
+        //自动换行,设置为off关闭
+        editor.setOption("wrap", "free")
+        //启用提示菜单
+        //ace.require("ace/ext/language_tools");
+        editor.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: true
+        });
+    }
+
+
+    const alertPWD = () => {
+        const alertPlaceholder = document.getElementById('liveAlertPlaceholder')
+        const wrapper = document.createElement('div')
+        wrapper.innerHTML = [
+            '<div class="alert alert-primary alert-dismissible" id="hasPWD" role="alert"><div class="alert-danger">检测到配置文件中存在[password]关键字，建议将密码删除或者替换为[******]再操作</div><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+        ].join('')
+        if (alertPlaceholder.childElementCount == 0) {
+            alertPlaceholder.append(wrapper)
+        }
+        if (alertPlaceholder.childElementCount > 0) {
+            alertPlaceholder.removeChild(alertPlaceholder.firstChild);
+            alertPlaceholder.append(wrapper)
+        }
+    }
+
+    function check(txt) {
+        if (txt.indexOf("password") > -1) {
+            alertPWD()
+        }
+    }
+
+
+    window.onload = function () {
+        function move() {
+            var race_notice_s = document.getElementById('race_notice_s');
+
+            function move_do() {
+                var math = Math.floor(Math.random() * color.length);
+                race_notice_s.style.color = color[math];
+            }
+            setInterval(move_do, 500);
+        }
+        //move();
+    }
+
+    $(document).on('paste', function (event) {
+        clipboardData = event.originalEvent.clipboardData || window.clipboardData;
+        var text = clipboardData.getData('text');
+        check(text);
+    });
+
+
+</script>
+
+</html>
